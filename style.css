@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2948c7;
+    --primary-dark: #14255f;
+    --background: #F5F7FC;
+    --card: #FFFFFF;
+    --text: #17213d;
+    --muted: #7B849D;
+    --border: #E7EAF2;
+
+    --blue: #E9EFFF;
+    --green: #E8F8EF;
+    --red: #ffe9ed;
+    --purple: #F0EAFF;
+    --orange: #FFF1DF;
+
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 265px;
+    height: 100vh;
+
+    background: linear-gradient(
+        180deg,
+        #111e4b,
+        #09163b
+    );
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 14px;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 5px 12px 30px;
+}
+
+.logo-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background: #FFFFFF20;
+    border-radius: 12px;
+}
+
+.logo strong {
+    display: block;
+    font-size: 18px;
+}
+
+.logo small {
+    display: block;
+    color: #b7c0de;
+    margin-top: 3px;
+    font-size: 10px;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu {
+    border: 0;
+    background: transparent;
+
+    color: #C6cde3;
+    padding: 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+    font-size: 14px;
+
+    cursor: pointer;
+    transition: .2s;
+}
+
+.menu:hover, 
+.menu.active {
+    background: #3154c7;
+    color: white;
+}
+
+.menu svg {
+    width: 20px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.quote {
+    background: #FFFFFF12;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.quote svg {
+    margin-bottom: 12px;
+}
+
+.quote p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #D6DCF0;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-top: 1px solid #FFFFFF20;
+
+    padding: 18px 5px 0;
+}
+
+.user-profile span {
+    display: block;
+    font-size: 11px;
+    color: #aeb7d3;
+    margin-top: 3px;
+}
+
+.user-profile svg {
+    margin-left: auto;
+    width: 15px;
+}
+
+/*  MAIN */
+.main {
+    margin-left: 265px;
+    min-height: 100vh;
+}
