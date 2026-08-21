@@ -110,10 +110,103 @@
 
                 <input type="text" id="searchAluno" placeholder="Buscar aluno...">
             </div>
+
+            <div class="top-actions">
+                <button class="icon-button">
+                    <i data-lucide="bell"></i>
+                    <span class="notification">3</span>
+                </button>
+
+                <select id="turma">
+                    <option></option>
+                    <option>1° Ano A</option>
+                    <option>1° Ano B</option>
+                    <option>2° Ano A</option>
+                    <option>2° Ano B</option>
+                    <option>3° Ano A</option>
+                    <option>3° Ano B</option>
+                    <option>4° Ano A</option>
+                    <option>4° Ano B</option>
+                    <option>5° Ano A</option>  
+                    <option>5° Ano B</option>
+                </select>
+            </div>
+
         </header>
+
+        <!-- CONTENT  -->
+         <section class="content">
+            <div class="welcome">
+                <div>
+                    <h1>Olá, Enzo!</h1>
+
+                    <p>Bem-vindo ao sistema de orientação escolar!</p>
+                </div>
+
+                <button class="primary-button" onclick="abrirCadastroAluno()">
+                    <i data-lucide="plus"></i>
+                    Novo Aluno
+                </button>
+            </div>
+
+            <!-- CARDS -->
+             <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i data-lucide="users"></i>
+                    </div>
+
+                    <div>
+                        <span>Aluno</span>
+                        <strong id="totalAlunos">0</strong>
+                        <small>Matriculados</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon red">
+                        <i data-lucide="alert-circle"></i>
+                    </div>
+
+                    <div>
+                        <span>Ocorrências</span>
+                        <strong id="totalOcorrencias">0</strong>
+                        <small>Registradas</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i data-lucide="mic"></i>
+                    </div>
+
+                    <div>
+                        <span>Reuniões</span>
+                        <strong id="totalReunioes">0</strong>
+                        <small>Registradas</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i data-lucide="file-text"></i>
+                    </div>
+
+                    <div>
+                        <span>Documentos</span>
+                        <strong id="totalDocumentos">0</strong>
+                        <small>Arquivados</small>
+                    </div>
+                </div>
+
+             </div>
+
+
+         </section>
     </main>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>

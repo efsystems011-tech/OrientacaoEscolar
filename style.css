@@ -162,3 +162,146 @@ nav {
     margin-left: 265px;
     min-height: 100vh;
 }
+
+
+/* TOPBAR */
+.topbar {
+    height: 70px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.search {
+    width: 370px;
+    display: flex;
+    align-items: center;
+    background: #F8F9FC;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 9px 13px;
+    color: var(--muted);
+}
+
+.search input,
+.student-search input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+
+    width: 100%;
+    margin-left: 9px;
+    font-family: inherit;
+}
+
+.top-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.icon-button {
+    position: relative;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: #59627C;
+}
+
+.notification {
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #EF4C58;
+    color: white;
+    font-size: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+select {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text)
+}
+
+/* CONTENT */
+
+.content{
+    padding: 30px;
+}
+
+.welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 25px;
+}
+
+.welcome p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* BUTTONS */
+
+button {
+    font-family: inherit;
+}
+
+.primary-button {
+    border: 0;
+    background: var(--primary);
+    color: white;
+    padding: 11px 16px;
+
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.primary-button:hover {
+    background: #203ba8;
+    transform: translateY(-1px);
+}
+
+.primary-button.small {
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+outine-button {
+    border: 1px solid #ccd3ef;
+    background: white;
+
+    color: var(--primary);
+    border-radius: 8px
+    
+}
+
+stats {
+    display: grid
+}
