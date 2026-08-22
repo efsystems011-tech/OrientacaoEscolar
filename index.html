@@ -53,9 +53,8 @@
             </button>
 
             <button class="menu">
-                <i data-lucide="mic">
-                    Reuniões & Áudios
-                </i>
+                <i data-lucide="mic"></i>
+                Reuniões & Áudios
             </button>
 
             <button class="menu">
@@ -106,7 +105,7 @@
         <header class="topbar">
             <div class="search">
 
-                <i data-lucider="search"></i>
+                <i data-lucide="search"></i>
 
                 <input type="text" id="searchAluno" placeholder="Buscar aluno...">
             </div>
@@ -127,7 +126,7 @@
                     <option>3° Ano B</option>
                     <option>4° Ano A</option>
                     <option>4° Ano B</option>
-                    <option>5° Ano A</option>  
+                    <option>5° Ano A</option>
                     <option>5° Ano B</option>
                 </select>
             </div>
@@ -135,7 +134,7 @@
         </header>
 
         <!-- CONTENT  -->
-         <section class="content">
+        <section class="content">
             <div class="welcome">
                 <div>
                     <h1>Olá, Enzo!</h1>
@@ -150,7 +149,7 @@
             </div>
 
             <!-- CARDS -->
-             <div class="stats">
+            <div class="stats">
                 <div class="stat-card">
                     <div class="stat-icon blue">
                         <i data-lucide="users"></i>
@@ -199,10 +198,78 @@
                     </div>
                 </div>
 
-             </div>
+            </div>
 
+            <!-- GRID PRINCIPAL -->
 
-         </section>
+            <div class="dashboard-grid">
+
+                <!-- ALUNOS -->
+                <section class="panel students-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Alunos</h2>
+                            <span>Selecione um aluno</span>
+                        </div>
+
+                        <button class="circle-button" onclick="abrirCadastroAluno()">
+                            +
+                        </button>
+                    </div>
+
+                    <div class="student-search">
+                        <i data-lucide="search"></i>
+
+                        <input type="text" id="studentSearch" placeholder="Buscar aluno...">
+                    </div>
+                </section>
+            </div>
+
+            <div class="student-list" id="studentList"></div>
+
+            <button class="see-all" onclick="mostrarTodosAlunos()">
+                Ver todos os alunos
+            </button>
+
+        </section>
+
+        <!-- PERFIL -->
+        <section class="panel student-detail">
+            <div id="emptyState" class="empty-state">
+                <i data-lucide="user-round-search"></i>
+                <h2>Selecione um aluno</h2>
+
+                <p>
+                    Escolha um aluno na lista para visualizar seu acompanhamento.
+                </p>
+            </div>
+
+            <div id="studentProfile">
+        <!-- CABEÇALHO DO ALUNO -->
+                <div class="student-header">
+                    <div class="student-info">
+                        <div class="avatar student-avatar" id="studentAvatar"></div>
+                    </div>
+                </div>
+
+                <h2 id="studentName"></h2>
+
+                <p id="studentInfo"></p>
+
+                <div class="contact">
+                    <span>
+                        <i data-lucide="phone"></i>
+                        <span id="studentPhone"></span>
+                    </span>
+
+                    <span>
+                        <i data-lucide="mail"></i>
+                        <span id="studentEmail"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        </section>
     </main>
 
     <script src="script.js"></script>
