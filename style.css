@@ -560,3 +560,9 @@ outine-button {
     white-space: nowrap;
     border-bottom: 2px solid transparent;
 }
+
+.tab.menu.active {
+    color: var(--primary);
+    border-bottom-color: var(var(--primary));
+    font-weight: 700;
+}

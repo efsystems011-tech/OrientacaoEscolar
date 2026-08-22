@@ -103,64 +103,73 @@
 
         <!-- HEADER -->
         <header class="topbar">
+
             <div class="search">
 
                 <i data-lucide="search"></i>
 
                 <input type="text" id="searchAluno" placeholder="Buscar aluno...">
+
             </div>
 
             <div class="top-actions">
+
                 <button class="icon-button">
                     <i data-lucide="bell"></i>
                     <span class="notification">3</span>
                 </button>
 
                 <select id="turma">
-                    <option></option>
-                    <option>1° Ano A</option>
-                    <option>1° Ano B</option>
-                    <option>2° Ano A</option>
-                    <option>2° Ano B</option>
-                    <option>3° Ano A</option>
-                    <option>3° Ano B</option>
-                    <option>4° Ano A</option>
-                    <option>4° Ano B</option>
-                    <option>5° Ano A</option>
-                    <option>5° Ano B</option>
+                    <option>2º Ano A</option>
+                    <option>2º Ano B</option>
+                    <option>3º Ano A</option>
                 </select>
+
             </div>
 
         </header>
 
-        <!-- CONTENT  -->
-        <section class="content">
-            <div class="welcome">
-                <div>
-                    <h1>Olá, Enzo!</h1>
 
-                    <p>Bem-vindo ao sistema de orientação escolar!</p>
+        <!-- CONTENT -->
+        <section class="content">
+
+            <div class="welcome">
+
+                <div>
+
+                    <h1>
+                        Olá, Enzo! 👋
+                    </h1>
+
+                    <p>
+                        Bem-vindo ao seu painel de acompanhamento.
+                    </p>
+
                 </div>
 
                 <button class="primary-button" onclick="abrirCadastroAluno()">
                     <i data-lucide="plus"></i>
-                    Novo Aluno
+                    Novo aluno
                 </button>
+
             </div>
+
 
             <!-- CARDS -->
             <div class="stats">
+
                 <div class="stat-card">
                     <div class="stat-icon blue">
                         <i data-lucide="users"></i>
                     </div>
 
                     <div>
-                        <span>Aluno</span>
+                        <span>Alunos</span>
                         <strong id="totalAlunos">0</strong>
                         <small>Matriculados</small>
                     </div>
                 </div>
+
 
                 <div class="stat-card">
                     <div class="stat-icon red">
@@ -174,6 +183,7 @@
                     </div>
                 </div>
 
+
                 <div class="stat-card">
                     <div class="stat-icon purple">
                         <i data-lucide="mic"></i>
@@ -185,6 +195,7 @@
                         <small>Registradas</small>
                     </div>
                 </div>
+
 
                 <div class="stat-card">
                     <div class="stat-icon green">
@@ -200,13 +211,16 @@
 
             </div>
 
-            <!-- GRID PRINCIPAL -->
 
+            <!-- GRID PRINCIPAL -->
             <div class="dashboard-grid">
+
 
                 <!-- ALUNOS -->
                 <section class="panel students-panel">
+
                     <div class="panel-header">
+
                         <div>
                             <h2>Alunos</h2>
                             <span>Selecione um aluno</span>
@@ -215,62 +229,263 @@
                         <button class="circle-button" onclick="abrirCadastroAluno()">
                             +
                         </button>
+
                     </div>
 
+
                     <div class="student-search">
+
                         <i data-lucide="search"></i>
 
                         <input type="text" id="studentSearch" placeholder="Buscar aluno...">
+
                     </div>
+
+
+                    <div class="student-list" id="studentList"></div>
+
+
+                    <button class="see-all" onclick="mostrarTodosAlunos()">
+                        Ver todos os alunos
+                    </button>
+
                 </section>
-            </div>
 
-            <div class="student-list" id="studentList"></div>
 
-            <button class="see-all" onclick="mostrarTodosAlunos()">
-                Ver todos os alunos
-            </button>
+                <!-- PERFIL -->
+                <section class="panel student-detail">
 
-        </section>
+                    <div id="emptyState" class="empty-state">
 
-        <!-- PERFIL -->
-        <section class="panel student-detail">
-            <div id="emptyState" class="empty-state">
-                <i data-lucide="user-round-search"></i>
-                <h2>Selecione um aluno</h2>
+                        <i data-lucide="user-round-search"></i>
 
-                <p>
-                    Escolha um aluno na lista para visualizar seu acompanhamento.
-                </p>
-            </div>
+                        <h2>Selecione um aluno</h2>
 
-            <div id="studentProfile">
+                        <p>
+                            Escolha um aluno na lista para visualizar
+                            seu acompanhamento.
+                        </p>
 
-                <!-- CABEÇALHO DO ALUNO -->
-                <div class="student-header">
+                    </div>
 
-                    <div class="student-info">
 
-                        <div class="avatar student-avatar" id="studentAvatar">
+                    <div id="studentProfile" style="display:none;">
+
+                        <!-- CABEÇALHO DO ALUNO -->
+                        <div class="student-header">
+
+                            <div class="student-info">
+
+                                <div class="avatar student-avatar" id="studentAvatar">
+                                </div>
+
+                                <div>
+
+                                    <h2 id="studentName"></h2>
+
+                                    <p id="studentInfo"></p>
+
+                                    <div class="contact">
+
+                                        <span>
+                                            <i data-lucide="phone"></i>
+                                            <span id="studentPhone"></span>
+                                        </span>
+
+                                        <span>
+                                            <i data-lucide="mail"></i>
+                                            <span id="studentEmail"></span>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <button class="outline-button" onclick="editarAluno()">
+                                <i data-lucide="pencil"></i>
+                                Editar
+                            </button>
+
                         </div>
 
-                        <div>
 
-                            <h2 id="studentName"></h2>
+                        <!-- TABS -->
+                        <div class="tabs">
 
-                            <p id="studentInfo"></p>
+                            <button class="tab active" onclick="mostrarAba('overview', this)">
+                                Visão Geral
+                            </button>
 
-                            <div class="contact">
+                            <button class="tab" onclick="mostrarAba('ocorrencias', this)">
+                                Ocorrências
+                            </button>
 
-                                <span>
-                                    <i data-lucide="phone"></i>
-                                    <span id="studentPhone"></span>
-                                </span>
+                            <button class="tab" onclick="mostrarAba('documentos', this)">
+                                Documentos
+                            </button>
 
-                                <span>
-                                    <i data-lucide="mail"></i>
-                                    <span id="studentEmail"></span>
-                                </span>
+                            <button class="tab" onclick="mostrarAba('audios', this)">
+                                Áudios
+                            </button>
+
+                            <button class="tab" onclick="mostrarAba('historico', this)">
+                                Histórico
+                            </button>
+
+                        </div>
+
+
+                        <!-- OVERVIEW -->
+                        <div id="overview" class="tab-content">
+
+                            <div class="section-title">
+
+                                <h3>
+                                    Ocorrências recentes
+                                </h3>
+
+                                <button onclick="abrirOcorrencia()" class="text-button">
+                                    + Nova ocorrência
+                                </button>
+
+                            </div>
+
+
+                            <div id="recentOccurrences" class="occurrences"></div>
+
+
+                            <div class="section-title documents-title">
+
+                                <h3>
+                                    Documentos anexados
+                                </h3>
+
+                                <button onclick="mostrarAba('documentos')" class="text-button">
+                                    Ver todos
+                                </button>
+
+                            </div>
+
+
+                            <div id="documentList" class="documents"></div>
+
+
+                            <div class="section-title">
+
+                                <h3>
+                                    Áudios de reuniões
+                                </h3>
+
+                                <button onclick="mostrarAba('audios')" class="text-button">
+                                    Ver todos
+                                </button>
+
+                            </div>
+
+
+                            <div id="audioList" class="audio-list"></div>
+
+                        </div>
+
+
+                        <!-- OCORRÊNCIAS -->
+                        <div id="ocorrencias" class="tab-content" style="display:none;">
+
+                            <div class="section-title">
+
+                                <h3>
+                                    Todas as ocorrências
+                                </h3>
+
+                                <button class="primary-button small" onclick="abrirOcorrencia()">
+                                    <i data-lucide="plus"></i>
+                                    Registrar
+                                </button>
+
+                            </div>
+
+                            <div id="allOccurrences" class="occurrences"></div>
+
+                        </div>
+
+
+                        <!-- DOCUMENTOS -->
+                        <div id="documentos" class="tab-content" style="display:none;">
+
+                            <div class="section-title">
+
+                                <h3>
+                                    Documentos
+                                </h3>
+
+                                <label class="upload-button">
+
+                                    <i data-lucide="upload"></i>
+
+                                    Anexar documento
+
+                                    <input type="file" hidden id="documentUpload">
+
+                                </label>
+
+                            </div>
+
+                            <div id="allDocuments" class="documents large"></div>
+
+                        </div>
+
+
+                        <!-- AUDIOS -->
+                        <div id="audios" class="tab-content" style="display:none;">
+
+                            <div class="section-title">
+
+                                <h3>
+                                    Reuniões e áudios
+                                </h3>
+
+                                <label class="upload-button">
+
+                                    <i data-lucide="mic"></i>
+
+                                    Adicionar áudio
+
+                                    <input type="file" accept="audio/*" hidden id="audioUpload">
+
+                                </label>
+
+                            </div>
+
+                            <div id="allAudios" class="audio-list"></div>
+
+                        </div>
+
+
+                        <!-- HISTÓRICO -->
+                        <div id="historico" class="tab-content" style="display:none;">
+
+                            <h3>
+                                Histórico do acompanhamento
+                            </h3>
+
+                            <div class="timeline">
+
+                                <div class="timeline-item">
+                                    <span></span>
+
+                                    <div>
+                                        <strong>
+                                            Aluno cadastrado
+                                        </strong>
+
+                                        <p>
+                                            Cadastro inicial realizado.
+                                        </p>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -278,45 +493,132 @@
 
                     </div>
 
-                    <button class="outline-button" onclick="editarAluno()">
-                        <i data-lucide="pencil"></i>
-                        Editar
-                    </button>
-                </div>
+                </section>
 
-                <!-- TABS -->
 
-                <div class="tabs">
-                    <button class="tab active" onclick="mostrarAba('overview', this)">
-                        Visão Geral
-                    </button>
+                <!-- RESUMO -->
+                <aside class="right-column">
 
-                    <button class="tab" onclick="mostrarAba('ocorrencias', this)">
-                        Ocorrências
-                    </button>
+                    <div class="panel summary">
 
-                    <button class="tab" onclick="mostrarAba('documentos', this)">
-                        Documentos
-                    </button>
+                        <h2>
+                            Resumo do aluno
+                        </h2>
 
-                      <button 
-                        class="tab"
-                        onclick="mostrarAba('audios', this)"
-                        >
-                        Áudios
-                    </button>
+                        <div class="summary-item">
 
-                      <button 
-                        class="tab"
-                        onclick="mostrarAba('historicos', this)"
-                        >
-                        Históricos
-                    </button>
+                            <div class="summary-icon">
+                                <i data-lucide="clock"></i>
+                            </div>
 
-                </div>
+                            <div class="summary-data">
 
+                                <span>Frequência</span>
+
+                                <strong id="frequency">
+                                    92%
+                                </strong>
+
+                                <div class="progress">
+                                    <div style="width:92%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <div class="summary-icon green">
+                                <i data-lucide="book-open"></i>
+                            </div>
+
+                            <div class="summary-data">
+
+                                <span>Desempenho</span>
+
+                                <strong id="performance">
+                                    Bom
+                                </strong>
+
+                                <div class="progress">
+                                    <div style="width:78%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <div class="summary-icon orange">
+                                <i data-lucide="heart"></i>
+                            </div>
+
+                            <div class="summary-data">
+
+                                <span>Comportamento</span>
+
+                                <strong>
+                                    Em acompanhamento
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h2>
+                            Responsáveis
+                        </h2>
+
+                        <div id="guardians" class="guardians"></div>
+
+                    </div>
+
+
+                    <div class="panel next-meeting">
+
+                        <h2>
+                            Próxima reunião
+                        </h2>
+
+                        <div class="meeting-card">
+
+                            <i data-lucide="calendar"></i>
+
+                            <div>
+
+                                <strong>
+                                    Reunião com responsáveis
+                                </strong>
+
+                                <span>
+                                    22/08/2026 às 15:30
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <button class="see-all">
+                            Ver calendário
+                        </button>
+
+                    </div>
+
+                </aside>
+
+            </div>
 
         </section>
+
     </main>
 
     <script src="script.js"></script>

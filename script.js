@@ -20,6 +20,7 @@ const alunosIniciais = [
     {
         id: 1,
         nome: "Alexsandro da Silva Cardoso",
+        turma: "2° Ano B",
         idade: 8,
         matricula: "002149",
         telefone: "(69) 99250-1903",
@@ -123,6 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderizarAlunos();
 
+    document.getElementById("studentSearch").addEventListener(
+        "input",
+        event => renderizarAlunos(event.target.value)
+    );
+
+    document.getElementById("searchAluno").addEventListener(
+        "input",
+        event => renderizarAlunos(event.target.value)
+    );
+
     lucide.createIcons();
 
 });
@@ -181,7 +192,7 @@ function renderizarAlunos(
 
     const filtrados = alunos.filter(
         aluno => aluno.nome
-            .toLowercase()
+            .toLowerCase()
             .includes(
                 filtro.toLowerCase()
             )
@@ -233,7 +244,7 @@ function renderizarAlunos(
 
 function selecionarAluno(id) {
     alunoSelecionado = alunos.find(
-        aluno = aluno.id === id
+        aluno => aluno.id === id
     );
 
     if (!alunoSelecionado)
@@ -286,19 +297,21 @@ function atualizarPerfil() {
 
     document.getElementById(
         "studentEmail"
-    ).textContent.email || "Não informado";
+    ).textContent = aluno.email || "Não informado";
 
     document.getElementById(
         "studentAvatar"
     ).textContent = iniciais(aluno.nome);
 
-    document.getElementById(
-        "frequency"
-    ).textContent = `${aluno.frequencia}%`;
+    const frequency = document.getElementById("frequency");
+    if (frequency) {
+        frequency.textContent = `${aluno.frequencia}%`;
+    }
 
-    document.getElementById(
-        "performace"
-    ).textContent = aluno.desempenho;
+    const performance = document.getElementById("performace");
+    if (performance) {
+        performance.textContent = aluno.desempenho;
+    }
 
     renderizarAlunos();
 
@@ -438,9 +451,9 @@ function abrirOcorrencia() {
     ).classList.add("show");
 }
 
-document.getElementById(
-    "occurrenceForm"
-).addEventListener(
+const occurrenceForm = document.getElementById("occurrenceForm");
+
+occurrenceForm?.addEventListener(
     "submit",
     function (event) {
         event.preventDefault();
@@ -487,6 +500,10 @@ document.getElementById(
 
 
 function renderizarDocumentos() {
+
+    if (!document.getElementById("documentList")) {
+        return;
+    }
 
     const documentos = alunoSelecionado.documentos;
 
@@ -540,9 +557,9 @@ function criarDocumentoHTML(documento) {
 // UPLOAD DE DOCUMENTO
 // ========================================================
 
-document.getElementById(
-    "documentUpload"
-).addEventListener(
+const documentUpload = document.getElementById("documentUpload");
+
+documentUpload?.addEventListener(
     "change",
     function () {
         const arquivo =
@@ -578,6 +595,10 @@ document.getElementById(
 
 
 function renderizarAudios() {
+
+    if (!document.getElementById("audioList")) {
+        return;
+    }
 
     const audios = alunoSelecionado.audios;
 
@@ -641,9 +662,9 @@ function criarAudioHTML(audio) {
 // UPLOAD DE ÁUDIO
 // ========================================================
 
-document.getElementById(
-    "audioUpload"
-).addEventListener(
+const audioUpload = document.getElementById("audioUpload");
+
+audioUpload?.addEventListener(
     "change",
     function () {
         const arquivo = this.files[0];
@@ -683,9 +704,13 @@ function renderizarResponsaveis() {
             "guardians"
         );
 
+    if (!container) {
+        return;
+    }
+
 
     container.innerHTML =
-        alunoSelecionado.responsaveis
+        alunoSelecionado.responsavel
             .map(
                 responsavel => `
 
