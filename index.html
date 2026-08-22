@@ -245,30 +245,77 @@
             </div>
 
             <div id="studentProfile">
-        <!-- CABEÇALHO DO ALUNO -->
+
+                <!-- CABEÇALHO DO ALUNO -->
                 <div class="student-header">
+
                     <div class="student-info">
-                        <div class="avatar student-avatar" id="studentAvatar"></div>
+
+                        <div class="avatar student-avatar" id="studentAvatar">
+                        </div>
+
+                        <div>
+
+                            <h2 id="studentName"></h2>
+
+                            <p id="studentInfo"></p>
+
+                            <div class="contact">
+
+                                <span>
+                                    <i data-lucide="phone"></i>
+                                    <span id="studentPhone"></span>
+                                </span>
+
+                                <span>
+                                    <i data-lucide="mail"></i>
+                                    <span id="studentEmail"></span>
+                                </span>
+
+                            </div>
+
+                        </div>
+
                     </div>
+
+                    <button class="outline-button" onclick="editarAluno()">
+                        <i data-lucide="pencil"></i>
+                        Editar
+                    </button>
                 </div>
 
-                <h2 id="studentName"></h2>
+                <!-- TABS -->
 
-                <p id="studentInfo"></p>
+                <div class="tabs">
+                    <button class="tab active" onclick="mostrarAba('overview', this)">
+                        Visão Geral
+                    </button>
 
-                <div class="contact">
-                    <span>
-                        <i data-lucide="phone"></i>
-                        <span id="studentPhone"></span>
-                    </span>
+                    <button class="tab" onclick="mostrarAba('ocorrencias', this)">
+                        Ocorrências
+                    </button>
 
-                    <span>
-                        <i data-lucide="mail"></i>
-                        <span id="studentEmail"></span>
-                    </span>
+                    <button class="tab" onclick="mostrarAba('documentos', this)">
+                        Documentos
+                    </button>
+
+                      <button 
+                        class="tab"
+                        onclick="mostrarAba('audios', this)"
+                        >
+                        Áudios
+                    </button>
+
+                      <button 
+                        class="tab"
+                        onclick="mostrarAba('historicos', this)"
+                        >
+                        Históricos
+                    </button>
+
                 </div>
-            </div>
-        </div>
+
+
         </section>
     </main>
 

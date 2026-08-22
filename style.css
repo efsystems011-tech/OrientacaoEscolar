@@ -473,3 +473,90 @@ outine-button {
 .student:selected {
     background: #edf1ff;
 }
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.student-avatar {
+    width: 58px;
+    height: 58px;
+    background: #dfe7ff;
+    color: var(--primary);
+}
+
+.teacher-avatar {
+    background: #dce5ff;
+    color: var(--primary);
+}
+
+.student strong {
+    display: block;
+    font-size: 12px;
+}
+
+.student small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+/* STUDENT DETAIL */
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.student-info {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+}
+
+.student-info h2 {
+    font-size: 19px;
+}
+
+.student-info p {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 4px 0;
+}
+
+.contact {
+    display: flex;
+    gap: 15px;
+}
+
+
+/* TABS */
+
+.tabs {
+    display: flex;
+    gap: 25px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+    overflow-x: auto;
+}
+
+.tab {
+    background: none;
+    border: 0;
+    padding: 10px 0;
+    color:#66708b;
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+}
