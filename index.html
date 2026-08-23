@@ -42,12 +42,12 @@
                 Alunos
             </button>
 
-            <button class="menu" data-section="ocorrencias" onclick="navegarSecao('documentos', this)">
+            <button class="menu" data-section="ocorrencias" onclick="navegarSecao('ocorrencias', this)">
                 <i data-lucide="clipboard-list"></i>
                 Ocorrências
             </button>
 
-            <button class="menu" data-section="documentos" onclick="navegarSecao('documentos', )">
+            <button class="menu" data-section="documentos" onclick="navegarSecao('documentos', this)">
                 <i data-lucide="file-text"></i>
                 Documentos
             </button>
@@ -57,7 +57,7 @@
                 Reuniões & Áudios
             </button>
 
-            <button class="menu" data-section="relatorios" onclick="navegarSecao('relatorio', this)">
+            <button class="menu" data-section="relatorios" onclick="navegarSecao('relatorios', this)">
                 <i data-lucide="bar-chart-3"></i>
                 Relatórios
             </button>
@@ -167,6 +167,7 @@
 
             <div id="directoryList" class="directory-list"></div>
           </section>
+
 
         <!-- CONTENT -->
         <section class="content">
@@ -354,7 +355,7 @@
                         <div class="tabs">
 
                             <button class="tab active" onclick="mostrarAba('overview', this)">
-                                Visão Geral
+                                Ficha do Aluno
                             </button>
 
                             <button class="tab" onclick="mostrarAba('ocorrencias', this)">

@@ -91,7 +91,7 @@ const alunosIniciais = [
 
         nome: "Alice Hemanoelly Xavier Vill",
 
-        turma: "2º Ano B",
+        turma: "2° Ano B",
 
         idade: 8,
 
@@ -118,7 +118,7 @@ const alunosIniciais = [
                 telefone: "(69)98469-7545"
             }
         ],
- 
+
         ocorrencias: [],
 
         documentos: [],
@@ -133,7 +133,7 @@ const alunosIniciais = [
 
         nome: "Arthur Cordeiro Assíry",
 
-        turma: "2º Ano B",
+        turma: "2° Ano B",
 
         idade: 8,
 
@@ -233,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     lucide.createIcons();
+    prepararDiretorio();
 
 });
 
@@ -286,51 +287,62 @@ function renderizarAlunos(
 ) {
     const lista = document.getElementById("studentList");
 
+    if (!lista)
+        return;
+
     lista.innerHTML = "";
 
+    const termo = filtro.trim().toLowerCase();
+
     const filtrados = alunos.filter(
-        aluno => aluno.nome
-            .toLowerCase()
-            .includes(
-                filtro.toLowerCase()
-            )
-    );
+        aluno => `
+            ${aluno.nome}
+            ${aluno.turma}
+            ${aluno.matricula}
+        `.toLowerCase().includes(termo));
 
+    const grupos = filtrados.reduce((acc, aluno) => {
+        const turma = aluno.turma || "Sem turma";
+        (acc[turma] ||= []).push(aluno);
+        return acc;
+    }, {});
 
-    filtrados.forEach(
-        aluno => {
-            const div = document.createElement(
-                "div"
-            );
+    Object.keys(grupos).sort((a, b) => a.localeCompare(b, "pt-BR",
+        { numeric: true })).forEach(turma => {
+            const heading = document.createElement("div");
+            heading.className = "student-group-title";
+            heading.innerHTML = `
+                    <span>${turma}</span>
+                    <small>${grupos[turma].length} alunos${grupos[turma].length !== 1 ? "s" : ""}</small>
+                `;
 
-            div.className = "student";
+            lista.appendChild(heading);
 
-            if (
-                alunoSelecionado && alunoSelecionado.id === aluno.id
-            ) {
-                div.classList.add(
-                    "selected"
-                );
-            }
+            grupos[turma].forEach(aluno => {
+                const div = document.createElement("div");
+                div.className = "student";
 
+                if (alunoSelecionado && alunoSelecionado.id === aluno.id) div.classList.add("selected");
 
-            div.innerHTML = `
-                <div class="avatar teacher-avatar">
-                    ${iniciais(aluno.nome)}
-                </div>
+                div.innerHTML = `
+                        <div class="avatar teacher-avatar">${iniciais(aluno.nome)}</div>
+                        <div class="student-main-info"><strong>${aluno.nome}</strong><small>Matrícula ${aluno.matricula || "-"}</small></div>
+                        <i data-lucide="chevron-right" class="student-arrow"></i>
+                    `;
 
-                <div>
-                    <strong> ${aluno.nome} </strong>
-                    <small> ${aluno.turma} </small>
-                </div>
+                div.onclick = () => selecionarAluno(aluno.id);
+                lista.appendChild(div);
+            });
+        });
+
+    if (!filtrados.length)
+        lista.innerHTML = `
+                <div class="empty-small"> Nenhum aluno encontrado.</div>
             `;
+    lucide.createIcons();
+};
 
-            div.onclick = () => selecionarAluno(aluno.id);
 
-            lista.appendChild(div);
-        }
-    );
-}
 
 /*
 ===============================================
@@ -358,6 +370,7 @@ function selecionarAluno(id) {
 
 
     atualizarPerfil();
+    mostrarAba("overview", document.querySelector(".tab"));
 
     renderizarAlunos(
         document.getElementById(
@@ -732,7 +745,7 @@ function criarAudioHTML(audio) {
     return `
         <div class="audio">
             <button class="play"
-                    onclick="alert('Aqui será conectado o player de áudio)"
+                    onclick="alert('Aqui será conectado o player de áudio')"
             >
 
                 <i data-lucide="play"></i>
@@ -881,11 +894,111 @@ function mostrarAba(aba, botao = null) {
         botao.classList.add(
             "active"
         );
+    } else {
+        const padrao = [
+            ...document.querySelectorAll(".tab")].find(t => t.getAttribute("onclick")?.includes(`'${aba}`));
+        if (padrao)
+            padrao.classList.add("active");
+
     }
 
     lucide.createIcons();
 }
 
+
+// ========================================================
+// NAVEGAÇÃO PRINCIPAL
+// ========================================================
+
+function navegarSecao(secao, botao) {
+    document.querySelectorAll(".menu").forEach(item => item.classList.remove("active"));
+
+    if (botao)
+        botao.classList.add("active");
+    const dashboard = document.querySelector(".content");
+    const diretorio = document.getElementById("studentsDirectory");
+    if (secao === "dashboard") {
+        dashboard.style.display = "block";
+        diretorio.style.display = "none";
+        return;
+    }
+
+    if (secao === "alunos") {
+        dashboard.style.display = "none";
+        diretorio.style.display = "block";
+        prepararDiretorio();
+        return;
+    }
+
+    dashboard.style.display = "block";
+    diretorio.style.display = "none";
+    const mapa = { ocorrencias: "ocorrencias", documentos: "documentos", audios: "audios" };
+    if (mapa[secao] && alunoSelecionado) {
+        const tab = [...document.querySelectorAll(".tab")].find(t => t.getAttribute("onclick")?.includes(`'${mapa[secao]}'`));
+        mostrarAba(mapa[secao], tab);
+    } else if (!alunoSelecionado) {
+        alert("Selecione um aluno primeiro.");
+    }
+}
+
+function prepararDiretorio() {
+    const select = document.getElementById("directoryTurma");
+    const input = document.getElementById("directorySearch");
+    if (!select || !input)
+        return;
+    const atual = select.value;
+    const turmas = [...new Set(alunos.map(a => a.turma).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true }));
+    select.innerHTML = `<option value="">Todas as turmas</option>` +
+        turmas.map(t => `<option value="${t}">${t}</option>`).join("");
+    select.value = turmas.includes(atual) ? atual : "";
+
+    const render = () => {
+        const termo = input.value.trim().toLowerCase();
+        const turma = select.value;
+        const filtrados = alunos.filter(a => `
+                ${a.nome}
+                ${a.turma}
+                ${a.matricula}
+                ${a.telefone}
+            `.toLocaleLowerCase().includes(termo) && (!turma || a.turma === turma));
+        renderizarDiretorio(filtrados);
+    };
+    input.oninput = render;
+    select.onchange = render;
+    render();
+}
+
+function renderizarDiretorio(lista) {
+    const container = document.getElementById("directoryList");
+    if (!container)
+        return;
+
+    const grupos = lista.reduce((acc, aluno) => {
+        const turma = aluno.turma || "Sem turma";
+        (acc[turma] ||= []).push(aluno);
+        return acc;
+    }, {});
+
+    container.innerHTML = Object.keys(grupos).sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true })).map(turma => `
+            <section class="class-card">
+                <div class="class-card-header">
+                    <div>
+                        <h2>${turma}</h2>
+                        <span>${grupos[turma].length} aluno${grupos[turma].length !== 1 ? "s" : ""}</span>
+                    </div>
+               <div class="directory-students">
+                    ${grupos[turma].map(aluno => `<button class="directory-student" onclick="abrirFichaAluno(${aluno.id})"><span class="avatar teacher-avatar">${iniciais(aluno.nome)}</span><span class="directory-student-text"><strong>${aluno.nome}</strong><small>${aluno.telefone || "Telefone não informado"}</small></span><i data-lucide="chevron-right"></i></button>`).join("")}
+                </div>    
+            </section>`).join("") || `<div class="empty-state compact"><i data-lucide="users-round"></i><h2>Nenhum aluno encontrado</h2><p>Cadastre um aluno ou ajuste os filtros.</p></div>`
+
+        lucide.createIcons();
+}
+
+function abrirFichaAluno(id) {
+    selecionarAluno(id);
+    const dashboardBtn = document.querySelector('[data-section="dashboard"]');
+    navegarSecao("dashboard", dashboardBtn);
+}
 
 // ========================================================
 // CADASTRO DE ALUNO
@@ -900,7 +1013,7 @@ function abrirCadastroAluno() {
 document.getElementById(
     "studentForm"
 ).addEventListener(
-    "submit", 
+    "submit",
     function (event) {
         event.preventDefault();
 
@@ -911,37 +1024,37 @@ document.getElementById(
                 "newStudentName"
             ).value,
 
-            turma: 
-            document.getElementById(
-                "newStudentClass"
-            ).value,
+            turma:
+                document.getElementById(
+                    "newStudentClass"
+                ).value,
 
             idade: calcularIdade(
                 document.getElementById("newStudentBirth").value
             ),
 
-            matricula: 
+            matricula:
                 String(
                     Math.floor(
                         Math.random() * 900000
                     )
                 ),
 
-            telefone: 
+            telefone:
                 document.getElementById(
                     "newStudentPhone"
                 ).value,
 
-            email: 
+            email:
                 document.getElementById(
                     "newStudentEmail"
                 ).value,
 
             frequencia: 100,
 
-            desempenho: 
+            desempenho:
                 "Em acompanhamento",
-            
+
             responsavel: [],
 
             ocorrencias: [],
@@ -949,7 +1062,7 @@ document.getElementById(
             documentos: [],
 
             audios: []
-   
+
         };
 
         alunos.push(
@@ -980,7 +1093,7 @@ document.getElementById(
 
 function fecharModal(id) {
     document.getElementById(id)
-            .classList.remove("show");
+        .classList.remove("show");
 }
 
 
@@ -989,7 +1102,7 @@ function fecharModal(id) {
 // ========================================================
 
 function editarAluno() {
-    if(!alunoSelecionado)
+    if (!alunoSelecionado)
         return;
 
     const novoNome = prompt(
@@ -997,7 +1110,7 @@ function editarAluno() {
         alunoSelecionado.nome
     );
 
-    if(!novoNome)
+    if (!novoNome)
         return
 
     alunoSelecionado.nome = novoNome;
@@ -1033,8 +1146,8 @@ function calcularIdade(dataNascimento) {
 }
 
 function formatarData(data) {
-    if(!data)
-        return"";
+    if (!data)
+        return "";
 
     return new Date(
         data + "T00:00:00"
@@ -1044,22 +1157,22 @@ function formatarData(data) {
 }
 
 function formatarTamanho(bytes) {
-    if(bytes < 1024)
+    if (bytes < 1024)
         return bytes + " B ";
 
-    if(bytes < 1024 * 1024)
-        return(
+    if (bytes < 1024 * 1024)
+        return (
             (bytes / 1024).toFixed(0)
             + "KB"
         );
 
-        return (
-           (bytes / (1024 * 1024)).toFixed(1) + " MB"
-        );
+    return (
+        (bytes / (1024 * 1024)).toFixed(1) + " MB"
+    );
 }
 
 
-function mostrarTodosAlunos(){
+function mostrarTodosAlunos() {
     document.getElementById(
         "studentSearch"
     ).value = "";
