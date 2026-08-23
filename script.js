@@ -105,7 +105,7 @@ const alunosIniciais = [
 
         desempenho: "Muito bom",
 
-        responsaveis: [
+        responsavel: [
             {
                 nome: "Daiara Corrêa Xavier Vill",
                 parentesco: "Mãe",
@@ -147,7 +147,7 @@ const alunosIniciais = [
 
         desempenho: "Em desenvolvimento",
 
-        responsaveis: [
+        responsavel: [
             {
                 nome: "Gleiciele Cordeiro da Cruz",
                 parentesco: "Mãe",
@@ -167,7 +167,7 @@ const alunosIniciais = [
                 id: 4,
                 tipo: "Aprendizagem",
                 data: "2026-08-11",
-                descricao:
+                descrição:
                     "Apresenta dificuldade na fala."
             }
 
@@ -249,7 +249,7 @@ function atualizarDashboard() {
     document.getElementById("totalAlunos").textContent = alunos.length;
 
     const ocorrencias = alunos.reduce(
-        (total, aluno) => total + aluno.ocorrencias.length, 0
+        (total, aluno) => total + (aluno.ocorrencias || []).length, 0
     );
 
     document.getElementById(
@@ -257,7 +257,7 @@ function atualizarDashboard() {
     ).textContent = ocorrencias;
 
     const reunioes = alunos.reduce(
-        (total, aluno) => total + aluno.audios.length, 0
+        (total, aluno) => total + (aluno.audios || []).length, 0
     );
 
     document.getElementById(
@@ -265,7 +265,7 @@ function atualizarDashboard() {
     ).textContent = reunioes;
 
     const documentos = alunos.reduce(
-        (total, aluno) => total + aluno.documentos.length, 0
+        (total, aluno) => total + (aluno.documentos || []).length, 0
     );
 
     document.getElementById(
@@ -406,12 +406,14 @@ function atualizarPerfil() {
         frequency.textContent = `${aluno.frequencia}%`;
     }
 
-    const performance = document.getElementById("performace");
+    const performance = document.getElementById("performance");
     if (performance) {
         performance.textContent = aluno.desempenho;
     }
 
     renderizarAlunos();
+
+    renderizarOcorrencias();
 
     renderizarDocumentos();
 
@@ -443,7 +445,7 @@ function iniciais(nome) {
 // ========================================================
 
 function renderizarOcorrencias() {
-    const ocorrencias = alunoSelecionado.ocorrencias;
+    const ocorrencias = alunoSelecionado.ocorrencias || alunoSelecionado.ocorrencia || [];
 
     const recentes = ocorrencias.slice(-3).reverse();
 
@@ -498,7 +500,7 @@ function criarOcorrenciaHTML(ocorrencia) {
             </h4>
 
             <p>
-                ${ocorrencia.descrição}
+                ${ocorrencia.descrição || ocorrencia.descricao || "Descrição não informada."}
             </p>
 
             <small>
@@ -540,9 +542,7 @@ function abrirOcorrencia() {
 
     document.getElementById(
         "occurrenceDate"
-    ).value = new Date()
-        .toUTCString()
-        .split("T")[0];
+    ).value = new Date().toISOString().split("T")[0];
 
     document.getElementById(
         "occurrenceModal"
@@ -574,7 +574,7 @@ occurrenceForm?.addEventListener(
                 ).value
         };
 
-        alunoSelecionado.ocorrencia.push(
+        alunoSelecionado.ocorrencias.push(
             novaOcorrencia
         );
 
@@ -603,7 +603,7 @@ function renderizarDocumentos() {
         return;
     }
 
-    const documentos = alunoSelecionado.documentos;
+    const documentos = alunoSelecionado.documentos || alunoSelecionado.documento || [];
 
     const html = documentos.length
         ? documentos.map(
@@ -698,7 +698,7 @@ function renderizarAudios() {
         return;
     }
 
-    const audios = alunoSelecionado.audios;
+    const audios = alunoSelecionado.audios || alunoSelecionado.audio || [];
 
     const html = audios.length
         ? audios.map(
@@ -738,7 +738,7 @@ function criarAudioHTML(audio) {
                 <i data-lucide="play"></i>
             </button>
 
-            <div class="audio=info"
+            <div class="audio-info">
                 <strong>
                     ${audio.nome}
                 </strong>
@@ -770,7 +770,7 @@ audioUpload?.addEventListener(
         if (!arquivo)
             return;
 
-        alunoSelecionado.audio.push({
+        alunoSelecionado.audios.push({
             nome: arquivo.name,
             data: new Date()
                 .toLocaleDateString(
@@ -808,7 +808,7 @@ function renderizarResponsaveis() {
 
 
     container.innerHTML =
-        alunoSelecionado.responsavel
+        (alunoSelecionado.responsavel || alunoSelecionado.responsaveis || [])
             .map(
                 responsavel => `
 
@@ -916,7 +916,9 @@ document.getElementById(
                 "newStudentClass"
             ).value,
 
-            idade: 0,
+            idade: calcularIdade(
+                document.getElementById("newStudentBirth").value
+            ),
 
             matricula: 
                 String(
@@ -940,11 +942,11 @@ document.getElementById(
             desempenho: 
                 "Em acompanhamento",
             
-            responsaveis: [],
+            responsavel: [],
 
-            ocorrencia: [],
+            ocorrencias: [],
 
-            documento: [],
+            documentos: [],
 
             audios: []
    
@@ -969,37 +971,6 @@ document.getElementById(
         );
 
         this.reset();
-    }
-);
-
-// ========================================================
-// PESQUISA
-// ========================================================
-
-document.getElementById(
-    "studentSearch"
-).addEventListener(
-    "input",
-    function() {
-        renderizarAlunos(
-            this.value
-        );
-    }
-);
-
-
-document.getElementById(
-    "searchAluno"
-).addEventListener(
-    "input",
-    function() {
-        document.getElementById(
-            "studentSearch"
-        ).value = this.value;
-
-        renderizarAlunos(
-            this.value
-        );
     }
 );
 
@@ -1040,6 +1011,27 @@ function editarAluno() {
 // UTILIDADES
 // ========================================================
 
+function calcularIdade(dataNascimento) {
+    if (!dataNascimento) {
+        return 0;
+    }
+
+    const nascimento = new Date(`${dataNascimento}T00:00:00`);
+    const hoje = new Date();
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+
+    const aniversarioAindaNaoChegou =
+        hoje.getMonth() < nascimento.getMonth() ||
+        (hoje.getMonth() === nascimento.getMonth() &&
+            hoje.getDate() < nascimento.getDate());
+
+    if (aniversarioAindaNaoChegou) {
+        idade--;
+    }
+
+    return idade;
+}
+
 function formatarData(data) {
     if(!data)
         return"";
@@ -1062,8 +1054,7 @@ function formatarTamanho(bytes) {
         );
 
         return (
-            (bytes / 1024 * 1024).toFixed(1)
-            + "MB"
+           (bytes / (1024 * 1024)).toFixed(1) + " MB"
         );
 }
 

@@ -32,42 +32,42 @@
         </div>
 
         <nav>
-            <button class="menu active">
+            <button class="menu active" data-section="dashboard" onclick="navegarSecao('dashboard', this)">
                 <i data-lucide="layout-dashboard"></i>
                 Dashboard
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="alunos" onclick="navegarSecao('alunos', this)">
                 <i data-lucide="users"></i>
                 Alunos
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="ocorrencias" onclick="navegarSecao('documentos', this)">
                 <i data-lucide="clipboard-list"></i>
                 Ocorrências
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="documentos" onclick="navegarSecao('documentos', )">
                 <i data-lucide="file-text"></i>
                 Documentos
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="audios" onclick="navegarSecao('audios', this)">
                 <i data-lucide="mic"></i>
                 Reuniões & Áudios
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="relatorios" onclick="navegarSecao('relatorio', this)">
                 <i data-lucide="bar-chart-3"></i>
                 Relatórios
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="calendario" onclick="navegarSecao('calendario', this)">
                 <i data-lucide="calendar"></i>
                 Calendário
             </button>
 
-            <button class="menu">
+            <button class="menu" data-section="configuracoes" onclick="navegarSecao('configuracoes', this)">
                 <i data-lucide="settings"></i>
                 Configurações
             </button>
@@ -120,15 +120,53 @@
                 </button>
 
                 <select id="turma">
+                    <option>PRÉ I A</option>
+                    <option>PRÉ I B</option>
+                    <option>PRÉ II A</option>
+                    <option>PRÉ II B</option>
+                    <option>1° Ano A</option>
+                    <option>1° Ano B</option>
                     <option>2º Ano A</option>
                     <option>2º Ano B</option>
                     <option>3º Ano A</option>
+                    <option>3° Ano B</option>
+                    <option>4° Ano A</option>
+                    <option>4° Ano B</option>
+                    <option>5° Ano A</option>
+                    <option>5° Ano B</option>
                 </select>
 
             </div>
 
         </header>
 
+         <!-- ALUNOS / DIRETÓRIO -->
+          <section class="page-view students-directory" id="studentsDirectory">
+            <div class="page-heading">
+                <div>
+                    <h1>Alunos</h1>
+                    <p>Acesso rápido à ficha, contatos e acompanhamento.</p>
+                </div>
+
+                <button class="primary-button" onclick="abrirCadastroAluno()">
+                    <i data-lucide="plus"></i>
+                    Novo aluno
+                </button>
+            </div>
+
+            <div class="directory-toolbar">
+                <div class="search directory-search">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="directorySearch" placeholder="Buscar por nome, turma ou matrícula...">
+                </div>
+
+                <select id="directoryTurma">
+                    <option value="">Todas as turmas</option>
+                </select>
+            </div>
+
+            <div id="directoryList" class="directory-list"></div>
+          </section>
 
         <!-- CONTENT -->
         <section class="content">
@@ -622,7 +660,7 @@
     </main>
 
     <!-- MODAL OCORRÊNCIA -->
-     <div class="modal" id="occurrenceModal">
+    <div class="modal" id="occurrenceModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Nova Ocorrência</h2>
@@ -664,42 +702,28 @@
                 </select>
 
                 <label>Data</label>
-                <input 
-                    type="date"
-                    id="occurrenceDate"
-                    required
-                    >
+                <input type="date" id="occurrenceDate" required>
 
-                    <label>Descrição</label>
+                <label>Descrição</label>
 
-                    <textarea 
-                        id="occurrenceDescription"
-                        rows="5"
-                        placeholder="Descreva a ocorrência..."
-                        required
-                        ></textarea>
+                <textarea id="occurrenceDescription" rows="5" placeholder="Descreva a ocorrência..."
+                    required></textarea>
 
-                    <div class="modal-actions">
-                        <button 
-                            class="cancel-button"
-                            type="button"
-                            onclick="fecharModal('occurrenceModal')"
-                            >
-                            Cancelar
-                        </button>
+                <div class="modal-actions">
+                    <button class="cancel-button" type="button" onclick="fecharModal('occurrenceModal')">
+                        Cancelar
+                    </button>
 
-                        <button 
-                            type="submit"
-                            class="primary-button">
-                            Salvar ocorrência
-                        </button>
-                    </div>
+                    <button type="submit" class="primary-button">
+                        Salvar ocorrência
+                    </button>
+                </div>
             </form>
         </div>
-     </div>
+    </div>
 
-     <!-- MODAL ALUNO -->
-      <div class="modal" id="studentModal">
+    <!-- MODAL ALUNO -->
+    <div class="modal" id="studentModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Novo Aluno</h2>
@@ -724,23 +748,17 @@
                 <input type="email" id="newStudentEmail">
 
                 <div class="modal-actions">
-                    <button 
-                        class="cancel-button"
-                        type="button"
-                        onclick="fecharModal('studentModal')"
-                    >
+                    <button class="cancel-button" type="button" onclick="fecharModal('studentModal')">
                         Cancelar
                     </button>
 
-                    <button
-                        type="submit" 
-                        class="primary-button">
+                    <button type="submit" class="primary-button">
                         Cadastrar aluno
                     </button>
                 </div>
             </form>
         </div>
-      </div>
+    </div>
 
     <script src="script.js"></script>
 
