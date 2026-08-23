@@ -621,7 +621,133 @@
 
     </main>
 
+    <!-- MODAL OCORRÊNCIA -->
+     <div class="modal" id="occurrenceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Ocorrência</h2>
+
+                <button onclick="fecharModal('occurrenceModal')">x</button>
+            </div>
+
+            <form id="occurrenceForm">
+                <label>
+                    Tipo de ocorrência
+                </label>
+
+                <select id="occurrenceType">
+
+                    <option value="Saúde">
+                        Saúde
+                    </option>
+
+                    <option value="Comportamento">
+                        Comportamento
+                    </option>
+
+                    <option value="Aprendizagem">
+                        Aprendizagem
+                    </option>
+
+                    <option value="Frequência">
+                        Frequência
+                    </option>
+
+                    <option value="Família">
+                        Família
+                    </option>
+
+                    <option value="Outro">
+                        Outro
+                    </option>
+
+                </select>
+
+                <label>Data</label>
+                <input 
+                    type="date"
+                    id="occurrenceDate"
+                    required
+                    >
+
+                    <label>Descrição</label>
+
+                    <textarea 
+                        id="occurrenceDescription"
+                        rows="5"
+                        placeholder="Descreva a ocorrência..."
+                        required
+                        ></textarea>
+
+                    <div class="modal-actions">
+                        <button 
+                            class="cancel-button"
+                            type="button"
+                            onclick="fecharModal('occurrenceModal')"
+                            >
+                            Cancelar
+                        </button>
+
+                        <button 
+                            type="submit"
+                            class="primary-button">
+                            Salvar ocorrência
+                        </button>
+                    </div>
+            </form>
+        </div>
+     </div>
+
+     <!-- MODAL ALUNO -->
+      <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Aluno</h2>
+
+                <button onclick="fecharModal('studentModal')">x</button>
+            </div>
+
+            <form id="studentForm">
+                <label>Nome completo</label>
+                <input type="text" id="newStudentName" required>
+
+                <label>Turma</label>
+                <input type="text" id="newStudentClass" placeholder="Ex: 2° Ano B" required>
+
+                <label>Data de nascimento</label>
+                <input type="date" id="newStudentBirth">
+
+                <label>Telefone do responsável</label>
+                <input type="text" id="newStudentPhone">
+
+                <label>E-mail</label>
+                <input type="email" id="newStudentEmail">
+
+                <div class="modal-actions">
+                    <button 
+                        class="cancel-button"
+                        type="button"
+                        onclick="fecharModal('studentModal')"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit" 
+                        class="primary-button">
+                        Cadastrar aluno
+                    </button>
+                </div>
+            </form>
+        </div>
+      </div>
+
     <script src="script.js"></script>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
 
 </body>
 

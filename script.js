@@ -77,8 +77,106 @@ const alunosIniciais = [
                 nome: "Reunião com responsável",
                 data: "2026-07-14",
                 duracao: "12:45"
+            },
+
+            {
+                nome: "Reunião com responsável",
+                data: "2026-04-20",
+                duracao: "30:45"
             }
         ]
+    },
+    {
+        id: 2,
+
+        nome: "Alice Hemanoelly Xavier Vill",
+
+        turma: "2º Ano B",
+
+        idade: 8,
+
+        matricula: "002150",
+
+        telefone: "(69) 99213-8877",
+
+        email: "daiarax8@gmail.com",
+
+        frequencia: 55,
+
+        desempenho: "Muito bom",
+
+        responsaveis: [
+            {
+                nome: "Daiara Corrêa Xavier Vill",
+                parentesco: "Mãe",
+                telefone: "(69) 99213-8877"
+            },
+
+            {
+                nome: "Alex Junior Vill dos Santos",
+                parentesco: "Pai",
+                telefone: "(69)98469-7545"
+            }
+        ],
+ 
+        ocorrencias: [],
+
+        documentos: [],
+
+        audios: []
+
+    },
+
+
+    {
+        id: 3,
+
+        nome: "Arthur Cordeiro Assíry",
+
+        turma: "2º Ano B",
+
+        idade: 8,
+
+        matricula: "002152",
+
+        telefone: "(69)8447-6047",
+
+        email: "",
+
+        frequencia: 89,
+
+        desempenho: "Em desenvolvimento",
+
+        responsaveis: [
+            {
+                nome: "Gleiciele Cordeiro da Cruz",
+                parentesco: "Mãe",
+                telefone: "(69)8447-6047"
+            },
+
+            {
+                nome: "Pablo Assíry da Cruz",
+                parentesco: "Pai",
+                telefone: "(69)98487-7985"
+            }
+        ],
+
+        ocorrencias: [
+
+            {
+                id: 4,
+                tipo: "Aprendizagem",
+                data: "2026-08-11",
+                descricao:
+                    "Apresenta dificuldade na fala."
+            }
+
+        ],
+
+        documentos: [],
+
+        audios: []
+
     }
 ];
 
@@ -793,8 +891,181 @@ function mostrarAba(aba, botao = null) {
 // CADASTRO DE ALUNO
 // ========================================================
 
+function abrirCadastroAluno() {
+    document.getElementById(
+        "studentModal"
+    ).classList.add("show");
+}
+
+document.getElementById(
+    "studentForm"
+).addEventListener(
+    "submit", 
+    function (event) {
+        event.preventDefault();
+
+        const novoAluno = {
+
+            id: Date.now(),
+            nome: document.getElementById(
+                "newStudentName"
+            ).value,
+
+            turma: 
+            document.getElementById(
+                "newStudentClass"
+            ).value,
+
+            idade: 0,
+
+            matricula: 
+                String(
+                    Math.floor(
+                        Math.random() * 900000
+                    )
+                ),
+
+            telefone: 
+                document.getElementById(
+                    "newStudentPhone"
+                ).value,
+
+            email: 
+                document.getElementById(
+                    "newStudentEmail"
+                ).value,
+
+            frequencia: 100,
+
+            desempenho: 
+                "Em acompanhamento",
+            
+            responsaveis: [],
+
+            ocorrencia: [],
+
+            documento: [],
+
+            audios: []
+   
+        };
+
+        alunos.push(
+            novoAluno
+        );
+
+        salvarDados();
+
+        atualizarDashboard();
+
+        renderizarAlunos();
+
+        fecharModal(
+            "studentModal"
+        );
+
+        selecionarAluno(
+            novoAluno.id
+        );
+
+        this.reset();
+    }
+);
+
+// ========================================================
+// PESQUISA
+// ========================================================
+
+document.getElementById(
+    "studentSearch"
+).addEventListener(
+    "input",
+    function() {
+        renderizarAlunos(
+            this.value
+        );
+    }
+);
 
 
+document.getElementById(
+    "searchAluno"
+).addEventListener(
+    "input",
+    function() {
+        document.getElementById(
+            "studentSearch"
+        ).value = this.value;
+
+        renderizarAlunos(
+            this.value
+        );
+    }
+);
+
+// ========================================================
+// MODAIS
+// ========================================================
+
+function fecharModal(id) {
+    document.getElementById(id)
+            .classList.remove("show");
+}
+
+
+// ========================================================
+// EDITAR ALUNO
+// ========================================================
+
+function editarAluno() {
+    if(!alunoSelecionado)
+        return;
+
+    const novoNome = prompt(
+        "Nome do aluno",
+        alunoSelecionado.nome
+    );
+
+    if(!novoNome)
+        return
+
+    alunoSelecionado.nome = novoNome;
+
+    salvarDados();
+    atualizarPerfil();
+    renderizarAlunos();
+}
+
+// ========================================================
+// UTILIDADES
+// ========================================================
+
+function formatarData(data) {
+    if(!data)
+        return"";
+
+    return new Date(
+        data + "T00:00:00"
+    ).toLocaleDateString(
+        "pt-BR"
+    );
+}
+
+function formatarTamanho(bytes) {
+    if(bytes < 1024)
+        return bytes + " B ";
+
+    if(bytes < 1024 * 1024)
+        return(
+            (bytes / 1024).toFixed(0)
+            + "KB"
+        );
+
+        return (
+            (bytes / 1024 * 1024).toFixed(1)
+            + "MB"
+        );
+}
 
 
 function mostrarTodosAlunos(){
