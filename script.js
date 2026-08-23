@@ -91,7 +91,7 @@ const alunosIniciais = [
 
         nome: "Alice Hemanoelly Xavier Vill",
 
-        turma: "2° Ano B",
+        turma: "2º Ano B",
 
         idade: 8,
 
@@ -133,7 +133,7 @@ const alunosIniciais = [
 
         nome: "Arthur Cordeiro Assíry",
 
-        turma: "2° Ano B",
+        turma: "2º Ano B",
 
         idade: 8,
 
@@ -282,67 +282,39 @@ function atualizarDashboard() {
 
 */
 
-function renderizarAlunos(
-    filtro = ""
-) {
+function renderizarAlunos(filtro = "") {
     const lista = document.getElementById("studentList");
 
-    if (!lista)
+    if (!lista) 
         return;
 
     lista.innerHTML = "";
 
     const termo = filtro.trim().toLowerCase();
-
-    const filtrados = alunos.filter(
-        aluno => `
-            ${aluno.nome}
-            ${aluno.turma}
-            ${aluno.matricula}
-        `.toLowerCase().includes(termo));
-
+    const filtrados = alunos.filter(aluno => `${aluno.nome} ${aluno.turma} ${aluno.matricula}`.toLowerCase().includes(termo));
     const grupos = filtrados.reduce((acc, aluno) => {
         const turma = aluno.turma || "Sem turma";
         (acc[turma] ||= []).push(aluno);
         return acc;
     }, {});
-
-    Object.keys(grupos).sort((a, b) => a.localeCompare(b, "pt-BR",
-        { numeric: true })).forEach(turma => {
-            const heading = document.createElement("div");
-            heading.className = "student-group-title";
-            heading.innerHTML = `
-                    <span>${turma}</span>
-                    <small>${grupos[turma].length} alunos${grupos[turma].length !== 1 ? "s" : ""}</small>
-                `;
-
-            lista.appendChild(heading);
-
-            grupos[turma].forEach(aluno => {
-                const div = document.createElement("div");
-                div.className = "student";
-
-                if (alunoSelecionado && alunoSelecionado.id === aluno.id) div.classList.add("selected");
-
-                div.innerHTML = `
-                        <div class="avatar teacher-avatar">${iniciais(aluno.nome)}</div>
-                        <div class="student-main-info"><strong>${aluno.nome}</strong><small>Matrícula ${aluno.matricula || "-"}</small></div>
-                        <i data-lucide="chevron-right" class="student-arrow"></i>
-                    `;
-
-                div.onclick = () => selecionarAluno(aluno.id);
-                lista.appendChild(div);
-            });
+    Object.keys(grupos).sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true })).forEach(turma => {
+        const heading = document.createElement("div");
+        heading.className = "student-group-title";
+        heading.innerHTML = `<span>${turma}</span><small>${grupos[turma].length} aluno${grupos[turma].length !== 1 ? "s" : ""}</small>`;
+        lista.appendChild(heading);
+        
+        grupos[turma].forEach(aluno => {
+            const div = document.createElement("div");
+            div.className = "student";
+            if (alunoSelecionado && alunoSelecionado.id === aluno.id) div.classList.add("selected");
+            div.innerHTML = `<div class="avatar teacher-avatar">${iniciais(aluno.nome)}</div><div class="student-main-info"><strong>${aluno.nome}</strong><small>Matrícula ${aluno.matricula || "-"}</small></div><i data-lucide="chevron-right" class="student-arrow"></i>`;
+            div.onclick = () => selecionarAluno(aluno.id);
+            lista.appendChild(div);
         });
-
-    if (!filtrados.length)
-        lista.innerHTML = `
-                <div class="empty-small"> Nenhum aluno encontrado.</div>
-            `;
+    });
+    if (!filtrados.length) lista.innerHTML = `<div class="empty-small">Nenhum aluno encontrado.</div>`;
     lucide.createIcons();
-};
-
-
+}
 
 /*
 ===============================================
@@ -491,7 +463,7 @@ function renderizarOcorrencias() {
                     )
                     .join("")
                 : `
-                    <div class="empty-small>
+                    <div class="empty-small">
                         Nenhuma ocorrência registrada.
                     </div>
                 `;
@@ -745,7 +717,7 @@ function criarAudioHTML(audio) {
     return `
         <div class="audio">
             <button class="play"
-                    onclick="alert('Aqui será conectado o player de áudio')"
+                    onclick="alert('Aqui será conectado o player de áudio)"
             >
 
                 <i data-lucide="play"></i>
@@ -863,48 +835,19 @@ function renderizarResponsaveis() {
 // ========================================================
 
 function mostrarAba(aba, botao = null) {
-    const abas = [
-        "overview",
-        "ocorrencias",
-        "documentos",
-        "audios",
-        "historico"
-    ];
-
-    abas.forEach(
-        nome => {
-            const elemento = document.getElementById(
-                nome
-            );
-
-            if (elemento) {
-                elemento.style.display = nome === aba
-                    ? "block"
-                    : "none"
-            }
-        }
-    );
-
-    document.querySelectorAll(".tab")
-        .forEach(
-            tab => tab.classList.remove("active")
-        );
-
-    if (botao) {
-        botao.classList.add(
-            "active"
-        );
-    } else {
-        const padrao = [
-            ...document.querySelectorAll(".tab")].find(t => t.getAttribute("onclick")?.includes(`'${aba}`));
-        if (padrao)
-            padrao.classList.add("active");
-
+    const abas = ["overview", "ocorrencias", "documentos", "audios", "historico"];
+    abas.forEach(nome => {
+        const elemento = document.getElementById(nome);
+        if (elemento) elemento.style.display = nome === aba ? "block" : "none";
+    });
+    document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+    if (botao) botao.classList.add("active");
+    else {
+        const padrao = [...document.querySelectorAll(".tab")].find(t => t.getAttribute("onclick")?.includes(`'${aba}'`));
+        if (padrao) padrao.classList.add("active");
     }
-
     lucide.createIcons();
 }
-
 
 // ========================================================
 // NAVEGAÇÃO PRINCIPAL
@@ -912,9 +855,7 @@ function mostrarAba(aba, botao = null) {
 
 function navegarSecao(secao, botao) {
     document.querySelectorAll(".menu").forEach(item => item.classList.remove("active"));
-
-    if (botao)
-        botao.classList.add("active");
+    if (botao) botao.classList.add("active");
     const dashboard = document.querySelector(".content");
     const diretorio = document.getElementById("studentsDirectory");
     if (secao === "dashboard") {
@@ -922,14 +863,12 @@ function navegarSecao(secao, botao) {
         diretorio.style.display = "none";
         return;
     }
-
     if (secao === "alunos") {
         dashboard.style.display = "none";
         diretorio.style.display = "block";
         prepararDiretorio();
         return;
     }
-
     dashboard.style.display = "block";
     diretorio.style.display = "none";
     const mapa = { ocorrencias: "ocorrencias", documentos: "documentos", audios: "audios" };
@@ -944,23 +883,18 @@ function navegarSecao(secao, botao) {
 function prepararDiretorio() {
     const select = document.getElementById("directoryTurma");
     const input = document.getElementById("directorySearch");
+
     if (!select || !input)
         return;
+
     const atual = select.value;
     const turmas = [...new Set(alunos.map(a => a.turma).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true }));
-    select.innerHTML = `<option value="">Todas as turmas</option>` +
-        turmas.map(t => `<option value="${t}">${t}</option>`).join("");
+    select.innerHTML = `<option value="">Todas as turmas</option>` + turmas.map(t => `<option value="${t}">${t}</option>`).join("");
     select.value = turmas.includes(atual) ? atual : "";
-
     const render = () => {
         const termo = input.value.trim().toLowerCase();
         const turma = select.value;
-        const filtrados = alunos.filter(a => `
-                ${a.nome}
-                ${a.turma}
-                ${a.matricula}
-                ${a.telefone}
-            `.toLocaleLowerCase().includes(termo) && (!turma || a.turma === turma));
+        const filtrados = alunos.filter(a => `${a.nome} ${a.turma} ${a.matricula} ${a.telefone}`.toLowerCase().includes(termo) && (!turma || a.turma === turma));
         renderizarDiretorio(filtrados);
     };
     input.oninput = render;
@@ -970,28 +904,16 @@ function prepararDiretorio() {
 
 function renderizarDiretorio(lista) {
     const container = document.getElementById("directoryList");
-    if (!container)
-        return;
-
-    const grupos = lista.reduce((acc, aluno) => {
-        const turma = aluno.turma || "Sem turma";
-        (acc[turma] ||= []).push(aluno);
-        return acc;
-    }, {});
-
+    if (!container) return;
+    const grupos = lista.reduce((acc, aluno) => { (acc[aluno.turma || "Sem turma"] ||= []).push(aluno); return acc; }, {});
     container.innerHTML = Object.keys(grupos).sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true })).map(turma => `
-            <section class="class-card">
-                <div class="class-card-header">
-                    <div>
-                        <h2>${turma}</h2>
-                        <span>${grupos[turma].length} aluno${grupos[turma].length !== 1 ? "s" : ""}</span>
-                    </div>
-               <div class="directory-students">
-                    ${grupos[turma].map(aluno => `<button class="directory-student" onclick="abrirFichaAluno(${aluno.id})"><span class="avatar teacher-avatar">${iniciais(aluno.nome)}</span><span class="directory-student-text"><strong>${aluno.nome}</strong><small>${aluno.telefone || "Telefone não informado"}</small></span><i data-lucide="chevron-right"></i></button>`).join("")}
-                </div>    
-            </section>`).join("") || `<div class="empty-state compact"><i data-lucide="users-round"></i><h2>Nenhum aluno encontrado</h2><p>Cadastre um aluno ou ajuste os filtros.</p></div>`
-
-        lucide.createIcons();
+        <section class="class-card">
+            <div class="class-card-header"><div><h2>${turma}</h2><span>${grupos[turma].length} aluno${grupos[turma].length !== 1 ? "s" : ""}</span></div></div>
+            <div class="directory-students">
+                ${grupos[turma].map(aluno => `<button class="directory-student" onclick="abrirFichaAluno(${aluno.id})"><span class="avatar teacher-avatar">${iniciais(aluno.nome)}</span><span class="directory-student-text"><strong>${aluno.nome}</strong><small>${aluno.telefone || "Telefone não informado"}</small></span><i data-lucide="chevron-right"></i></button>`).join("")}
+            </div>
+        </section>`).join("") || `<div class="empty-state compact"><i data-lucide="users-round"></i><h2>Nenhum aluno encontrado</h2><p>Cadastre um aluno ou ajuste os filtros.</p></div>`;
+    lucide.createIcons();
 }
 
 function abrirFichaAluno(id) {

@@ -140,34 +140,27 @@
 
         </header>
 
-         <!-- ALUNOS / DIRETÓRIO -->
-          <section class="page-view students-directory" id="studentsDirectory">
+
+        <!-- ALUNOS / DIRETÓRIO -->
+        <section class="page-view students-directory" id="studentsDirectory" style="display:none;">
             <div class="page-heading">
                 <div>
                     <h1>Alunos</h1>
                     <p>Acesso rápido à ficha, contatos e acompanhamento.</p>
                 </div>
-
                 <button class="primary-button" onclick="abrirCadastroAluno()">
-                    <i data-lucide="plus"></i>
-                    Novo aluno
+                    <i data-lucide="plus"></i> Novo aluno
                 </button>
             </div>
-
             <div class="directory-toolbar">
                 <div class="search directory-search">
                     <i data-lucide="search"></i>
                     <input type="text" id="directorySearch" placeholder="Buscar por nome, turma ou matrícula...">
                 </div>
-
-                <select id="directoryTurma">
-                    <option value="">Todas as turmas</option>
-                </select>
+                <select id="directoryTurma"><option value="">Todas as turmas</option></select>
             </div>
-
             <div id="directoryList" class="directory-list"></div>
-          </section>
-
+        </section>
 
         <!-- CONTENT -->
         <section class="content">
